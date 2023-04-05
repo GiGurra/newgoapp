@@ -39,6 +39,7 @@ const gitignoreTemplate = `# Binaries
 
 # Dependency directories
 vendor/
+
 `
 
 func main() {
@@ -85,8 +86,8 @@ func main() {
 		fmt.Println("Error creating main.go file:", err)
 		os.Exit(1)
 	}
-	
-	gitignoreContent := fmt.Sprintf("%s%s\n", gitignoreTemplate, projectDir)
+
+	gitignoreContent := fmt.Sprintf("%s\n%s\n", gitignoreTemplate, projectDir)
 	if err := os.WriteFile(".gitignore", []byte(gitignoreContent), 0644); err != nil {
 		fmt.Println("Error creating .gitignore file:", err)
 		os.Exit(1)
