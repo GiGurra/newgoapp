@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 )
@@ -77,21 +76,21 @@ func main() {
 
 	goModContent := fmt.Sprintf("module %s\n\ngo %s\n", modulePath, *goVersion)
 
-	if err := ioutil.WriteFile("go.mod", []byte(goModContent), 0644); err != nil {
+	if err := os.WriteFile("go.mod", []byte(goModContent), 0644); err != nil {
 		fmt.Println("Error creating go.mod file:", err)
 		os.Exit(1)
 	}
 
-	if err := ioutil.WriteFile("main.go", []byte(mainGoTemplate), 0644); err != nil {
+	if err := os.WriteFile("main.go", []byte(mainGoTemplate), 0644); err != nil {
 		fmt.Println("Error creating main.go file:", err)
 		os.Exit(1)
 	}
-
-	if err := ioutil.WriteFile(".gitignore", []byte(gitignoreTemplate), 0644); err != nil {
+	
+	gitignoreContent := fmt.Sprintf("%s%s\n", gitignoreTemplate, projectDir)
+	if err := os.WriteFile(".gitignore", []byte(gitignoreContent), 0644); err != nil {
 		fmt.Println("Error creating .gitignore file:", err)
 		os.Exit(1)
 	}
 
 	fmt.Println("Successfully created Go project skeleton at", filepath.Join(currentDir, projectDir))
 }
-
